@@ -71,6 +71,7 @@ DRY, SOLID, DDD
 - .NET 8 SDK (for local development)
 - Node.js 18+ (for local development)
 - PostgreSQL (for local development)
+- Windows WSL - enable long path https://learn.microsoft.com/en-us/answers/questions/1805411/how-to-enable-long-file-path-names-in-windows-11
 
 ## 🚀 Quick Start with Docker
 
@@ -84,7 +85,7 @@ DRY, SOLID, DDD
 2. **Start all services**
 
    ```bash
-   docker-compose up --build -d
+   docker-compose up -d
    ```
 
 3. **Access the application**
@@ -319,3 +320,20 @@ For support and questions, please open an issue in the repository or contact the
 ---
 
 **Built with ❤️ using .NET 8, React 18, PostgreSQL, and Docker**
+
+if not. use build.sh
+
+```
+# Use the official .NET 8 runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+
+# Copy pre-built application (built locally)
+COPY publish/ .
+
+# Expose port 80
+EXPOSE 80
+
+# Set the entry point
+ENTRYPOINT ["dotnet", "TeachPortal.API.dll"]
+```

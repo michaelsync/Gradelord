@@ -1,0 +1,38 @@
+# Build output
+**/bin/
+**/obj/
+**/out/
+
+# NuGet packages
+**/packages/
+**/.nuget/
+
+# IDE files
+**/.vs/
+**/.vscode/
+**/*.user
+**/*.suo
+**/*.userprefs
+
+# Temporary files
+**/tmp/
+**/temp/
+
+# Logs
+**/*.log
+
+# Git
+**/.git/
+**/.gitignore
+
+# Docker
+**/Dockerfile*
+**/.dockerignore
+
+# OS files
+**/.DS_Store
+**/Thumbs.db
+
+# Test results
+**/TestResults/
+**/coverage/ 

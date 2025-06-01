@@ -55,7 +55,7 @@ services:
       - REACT_APP_API_URL=http://localhost:5000/api
       - REACT_APP_ENVIRONMENT=development
     ports:
-      - "3000:3000"
+      - "3000:80"
     depends_on:
       - backend
     networks:

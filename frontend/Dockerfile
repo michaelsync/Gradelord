@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install all dependencies (including devDependencies needed for build)
+RUN npm ci
 
 # Copy source code
 COPY . .
@@ -18,7 +18,7 @@ RUN npm run build
 # Production stage
 FROM nginx:alpine
 
-# Copy built files from build stage
+# Copy built files from build stage (matches vite.config.ts outDir: 'build')
 COPY --from=build /app/build /usr/share/nginx/html
 
 # Copy nginx configuration if needed
