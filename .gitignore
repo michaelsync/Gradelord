@@ -23,6 +23,8 @@ bld/
 [Ll]og/
 [Ll]ogs/
 backend/publish/
+frontend/dist/
+frontend/build/
 
 # .NET Core
 project.lock.json
