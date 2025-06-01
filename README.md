@@ -2,68 +2,7 @@
 
 A modern full-stack web application for teachers to manage students and view other teachers in the system. Built with .NET 8, React 18, PostgreSQL, and Docker.
 
-## 🚀 Features
-
-### Authentication & Authorization
-
-- **User Registration**: Teachers can sign up with username, email, first name, last name, and password
-- **Secure Login**: JWT-based authentication with token validation
-- **Protected Routes**: Frontend route protection based on authentication status
-
-### Student Management
-
-- **CRUD Operations**: Create, read, update, and delete students
-- **Teacher Association**: Students are automatically associated with the logged-in teacher
-- **Data Validation**: Comprehensive form validation on both frontend and backend
-- **Modal Interface**: User-friendly modal forms for adding/editing students
-
-### Teacher Directory
-
-- **View All Teachers**: Browse all registered teachers in the system
-- **Student Counts**: See how many students each teacher has
-- **Statistics**: Dashboard with aggregated statistics
-
-### Dashboard
-
-- **Overview Statistics**: Quick stats showing student counts and teacher information
-- **Recent Students**: Display recently added students
-- **Quick Actions**: Easy navigation to key features
-
-## 🏗️ Architecture
-
-DRY, SOLID, DDD
-
-### Backend (.NET 8)
-
-- **Clean Architecture**: Organized into Domain, Application, Infrastructure, and API layers
-- **Entity Framework Core**: Code-first approach with PostgreSQL
-- **JWT Authentication**: Secure token-based authentication
-- **Repository Pattern**: Abstracted data access layer
-- **Dependency Injection**: Built-in .NET DI container
-- **Swagger Documentation**: Auto-generated API documentation
-
-### Frontend (React 18)
-
-- **TypeScript**: Full type safety throughout the application
-- **React Router**: Client-side routing with protected routes
-- **Context API**: State management for authentication
-- **Axios**: HTTP client with interceptors for API calls
-- **Responsive Design**: Mobile-friendly CSS with modern styling
-- **Form Validation**: Client-side validation with error handling
-
-### Database (PostgreSQL)
-
-- **Relational Design**: Proper foreign key relationships
-- **Entity Relationships**: One-to-many relationship between Teachers and Students
-- **Audit Fields**: Created/updated timestamps on all entities
-- **Unique Constraints**: Username and email uniqueness enforcement
-
-### DevOps (Docker)
-
-- **Multi-container Setup**: Separate containers for database, backend, and frontend
-- **Health Checks**: Database health monitoring
-- **Volume Persistence**: Data persistence for PostgreSQL
-- **Network Isolation**: Custom Docker network for service communication
+# How to run the application
 
 ## 📋 Prerequisites
 
@@ -71,7 +10,11 @@ DRY, SOLID, DDD
 - .NET 8 SDK (for local development)
 - Node.js 18+ (for local development)
 - PostgreSQL (for local development)
-- Windows WSL - enable long path https://learn.microsoft.com/en-us/answers/questions/1805411/how-to-enable-long-file-path-names-in-windows-11
+- Windows WSL - Enable long path 
+
+> [!NOTE]
+> I tested this application on Windows 11 with WSL2. I have the WSL and Docker integration enabled. I also enabled the [long file path support](https://learn.microsoft.com/en-us/answers/questions/1805411/how-to-enable-long-file-path-names-in-windows-11) . The WSL2 has .NET 8 SKD, Nodejs 24.1 (asdf).
+> I used to use the Visual Studio Enterprise editon or Pro edition at work but I don't have the personal license anymore. I still have the community editon but I use the vscode or the cursor most of the times now.
 
 ## 🚀 Quick Start with Docker
 
@@ -99,241 +42,45 @@ DRY, SOLID, DDD
    - Click "Register here" to create a new account
    - Fill in your details and start managing students!
 
-## 🛠️ Local Development Setup
+> [!TIP]
+> If you are not using the docker, please check this guide https://github.com/michaelsync/Gradelord/tree/main/docs#%EF%B8%8F-local-development-setup for more instructions.
 
-### Backend Setup
+> [!IMPORTANT]
+> The configuration settings can be found here https://github.com/michaelsync/Gradelord/blob/main/docs/README.md#-configuration.
 
-1. **Navigate to backend directory**
+## :battery: Design Patterns
 
-   ```bash
-   cd backend
-   ```
+ * **Clean Architecture**: The code structure in the backend are created based on the [Clearn Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html). The code are organized into domain, interface, infra/db layer. I also use the Entities, Repositories, Services as a part of DDD (Domain Driven Design). When we are adding the features, we can introduce using the Microservice architecture. 
+ * **DRY/SOLID**: The code are written with DRY (Don't repeat yourself) pricipal and SOLID pricipal in mind. The AuthService, TeacherService are the example of Single Responsibility Principle. The IRepository is an example of Open/Closed Principle. They can be extended but can't be modified the existing behivor. The TeacherRepo and StudentRepo are the example of Liskov Substitution Principle where they are the subclass of IRepo but they can be replacable without breaking the program. I also have IAuthService and etc. for Interface Segregation Principle. All interfaces and concrete classes are registered to ASP.NET DI using Dependency Inversion Principle. The example of DRY are BaseEntity class and Repository<T> class that I reuse the logic for saving the audit field. Another example in the Frontend is that I reuse the Auth logic.
+ * Password Hashing: BCrypt for secure password storage
+ * JWT Tokens: Stateless authentication with configurable expiration
+ * SQL Injection Protection: Entity Framework parameterized queries
 
-2. **Restore dependencies**
+Please check more information on the [Architecture](https://github.com/michaelsync/Gradelord/blob/main/docs/README.md#%EF%B8%8F-architecture) section and [Project Structure](https://github.com/michaelsync/Gradelord/blob/main/docs/README.md#-project-structure) section.
 
-   ```bash
-   dotnet restore
-   ```
+### Assumptions
+ - No student or other users such as admins can login
+ - The teacher can't create the students for other teachers.
+ - The teacher can see other teachers + the count of students that they created. (not details)
+ - I assumed that it will be hosted on Docker/kubnerties.
 
-3. **Update database connection** (if needed)
+### Enhancement
+ - Use a proper Azure B2C or AWS Cognito for the user management
+ - More unit tests, integration tests
+ - Deploymnet pipeline, PR validation
+ - MFA, DDos attack prevention
+ - Loggging, monitoring (e.g. heathcheck, page visit/traffic, errors, cost and etc.), analytics (e.g. user behivor tracking, device tracking and etc.), alerts (e.g. sms, email)
+ - Load Test, Integration tests, Pen tests
+ - CICD, code security scanning, code coverage, blue green deployment or canary
+ - auto-scaling
+ - HA - high availability
+   - "five-nines" availability (e.g. keep the system running even some components are failing. )
+   - self-healing (e.g. Fault Tolerance, auto recovery or restart when crash)
+   - Disaster recovery (e.g. multiple regions)
 
-   - Edit `src/TeachPortal.API/appsettings.json`
-   - Update the `ConnectionStrings:DefaultConnection`
+Related: 
+* https://github.com/michaelsync/Gradelord/blob/main/docs/README.md
 
-4. **Run the application**
-   ```bash
-   dotnet run --project src/TeachPortal.API
-   ```
 
-### Frontend Setup
 
-1. **Navigate to frontend directory**
 
-   ```bash
-   cd frontend
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   ```
-
-3. **Start development server**
-   ```bash
-   npm start
-   ```
-
-### Database Setup
-
-1. **Install PostgreSQL** locally or use Docker:
-
-   ```bash
-   docker run --name teach-portal-db -e POSTGRES_DB=TeachPortalDB -e POSTGRES_USER=teachadmin -e POSTGRES_PASSWORD=Teacher123! -p 5432:5432 -d postgres:16-alpine
-   ```
-
-2. **Database will be created automatically** when the backend starts
-
-## 📁 Project Structure
-
-```
-Gradelord/
-├── backend/
-│   ├── src/
-│   │   ├── TeachPortal.Domain/          # Domain entities and interfaces
-│   │   ├── TeachPortal.Application/     # Business logic and DTOs
-│   │   ├── TeachPortal.Infrastructure/  # Data access and repositories
-│   │   └── TeachPortal.API/            # Web API controllers and configuration
-│   ├── Dockerfile
-│   └── TeachPortal.sln
-├── frontend/
-│   ├── src/
-│   │   ├── components/                  # React components
-│   │   ├── contexts/                    # React contexts
-│   │   ├── services/                    # API services
-│   │   ├── types/                       # TypeScript type definitions
-│   │   ├── App.tsx                      # Main App component
-│   │   └── index.tsx                    # Entry point
-│   ├── public/                          # Static assets
-│   ├── Dockerfile
-│   └── package.json
-├── docker-compose.yml                   # Multi-container orchestration
-└── README.md
-```
-
-## 🔧 Configuration
-
-### Environment Variables
-
-#### Backend
-
-- `ASPNETCORE_ENVIRONMENT`: Development/Production
-- `ConnectionStrings__DefaultConnection`: PostgreSQL connection string
-- `JWT__SecretKey`: Secret key for JWT token signing
-- `JWT__Issuer`: JWT token issuer
-- `JWT__Audience`: JWT token audience
-- `JWT__ExpiryInMinutes`: Token expiration time
-
-#### Frontend
-
-- `REACT_APP_API_URL`: Backend API base URL
-- `REACT_APP_ENVIRONMENT`: Environment name
-
-### Database Configuration
-
-The application uses PostgreSQL with the following default settings:
-
-- **Database**: TeachPortalDB
-- **Username**: teachadmin
-- **Password**: Teacher123!
-- **Port**: 5432
-
-## 🔐 Security Features
-
-- **Password Hashing**: BCrypt for secure password storage
-- **JWT Tokens**: Stateless authentication with configurable expiration
-- **CORS Configuration**: Properly configured for frontend-backend communication
-- **Input Validation**: Comprehensive validation on both client and server
-- **SQL Injection Protection**: Entity Framework parameterized queries
-- **Authorization**: Route-level authorization with JWT validation
-
-## 📊 API Endpoints
-
-### Authentication
-
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/validate-token` - Token validation
-
-### Teachers
-
-- `GET /api/teachers` - Get all teachers
-- `GET /api/teachers/{id}` - Get teacher by ID
-- `GET /api/teachers/me` - Get current teacher
-
-### Students
-
-- `GET /api/students` - Get current teacher's students
-- `GET /api/students/{id}` - Get student by ID
-- `POST /api/students` - Create new student
-- `PUT /api/students/{id}` - Update student
-- `DELETE /api/students/{id}` - Delete student
-
-## 🧪 Testing
-
-### Backend Testing
-
-```bash
-cd backend
-dotnet test
-```
-
-### Frontend Testing
-
-```bash
-cd frontend
-npm test
-```
-
-## 🚀 Deployment
-
-### Production Docker Build
-
-```bash
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-```
-
-### Manual Deployment
-
-1. Build backend: `dotnet publish -c Release`
-2. Build frontend: `npm run build`
-3. Deploy to your hosting platform
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 📝 License
-
-This project is licensed under the MIT License.
-
-## 🆘 Troubleshooting
-
-### Common Issues
-
-1. **Database Connection Issues**
-
-   - Ensure PostgreSQL is running
-   - Check connection string in appsettings.json
-   - Verify database credentials
-
-2. **Frontend API Connection Issues**
-
-   - Check REACT_APP_API_URL environment variable
-   - Ensure backend is running on correct port
-   - Verify CORS configuration
-
-3. **JWT Token Issues**
-   - Check JWT secret key configuration
-   - Verify token expiration settings
-   - Clear browser localStorage if needed
-
-### Docker Issues
-
-1. **Port Conflicts**
-
-   - Check if ports 3000, 5000, or 5432 are already in use
-   - Modify docker-compose.yml port mappings if needed
-
-2. **Build Failures**
-   - Run `docker-compose down` and `docker-compose up --build`
-   - Check Docker logs: `docker-compose logs [service-name]`
-
-## 📞 Support
-
-For support and questions, please open an issue in the repository or contact the development team.
-
----
-
-**Built with ❤️ using .NET 8, React 18, PostgreSQL, and Docker**
-
-if not. use build.sh
-
-```
-# Use the official .NET 8 runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
-WORKDIR /app
-
-# Copy pre-built application (built locally)
-COPY publish/ .
-
-# Expose port 80
-EXPOSE 80
-
-# Set the entry point
-ENTRYPOINT ["dotnet", "TeachPortal.API.dll"]
-```
