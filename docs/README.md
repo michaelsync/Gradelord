@@ -31,8 +31,6 @@ A modern full-stack web application for teachers to manage students and view oth
 
 ## 🏗️ Architecture
 
-DRY, SOLID, DDD
-
 ### Backend (.NET 8)
 
 - **Clean Architecture**: Organized into Domain, Application, Infrastructure, and API layers
