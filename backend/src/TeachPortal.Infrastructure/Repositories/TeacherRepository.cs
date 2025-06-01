@@ -26,32 +26,25 @@ public class TeacherRepository : Repository<Teacher>, ITeacherRepository
     public async Task<bool> IsUsernameUniqueAsync(string username, Guid? excludeId = null, CancellationToken cancellationToken = default)
     {
         var query = _dbSet.Where(t => t.Username == username);
-        
+
         if (excludeId.HasValue)
         {
             query = query.Where(t => t.Id != excludeId.Value);
         }
-        
+
         return !await query.AnyAsync(cancellationToken);
     }
 
     public async Task<bool> IsEmailUniqueAsync(string email, Guid? excludeId = null, CancellationToken cancellationToken = default)
     {
         var query = _dbSet.Where(t => t.Email == email);
-        
+
         if (excludeId.HasValue)
         {
             query = query.Where(t => t.Id != excludeId.Value);
         }
-        
-        return !await query.AnyAsync(cancellationToken);
-    }
 
-    public async Task<Teacher?> GetWithStudentsAsync(Guid teacherId, CancellationToken cancellationToken = default)
-    {
-        return await _dbSet
-            .Include(t => t.Students)
-            .FirstOrDefaultAsync(t => t.Id == teacherId, cancellationToken);
+        return !await query.AnyAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<Teacher>> GetAllWithStudentCountsAsync(CancellationToken cancellationToken = default)
@@ -60,4 +53,4 @@ public class TeacherRepository : Repository<Teacher>, ITeacherRepository
             .Include(t => t.Students)
             .ToListAsync(cancellationToken);
     }
-} 
+}

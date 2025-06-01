@@ -59,17 +59,4 @@ public class TeachersController : ControllerBase
 
         return Ok(teacher);
     }
-
-    [HttpGet("{id:guid}/students")]
-    public async Task<ActionResult<TeacherDto>> GetTeacherWithStudents(Guid id)
-    {
-        var teacher = await _teacherService.GetTeacherWithStudentsAsync(id);
-
-        if (teacher == null)
-        {
-            return NotFound(new { message = "Teacher not found" });
-        }
-
-        return Ok(teacher);
-    }
 }

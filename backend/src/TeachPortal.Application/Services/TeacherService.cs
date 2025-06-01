@@ -15,7 +15,7 @@ public class TeacherService : ITeacherService
     public async Task<IEnumerable<TeacherDto>> GetAllTeachersAsync(CancellationToken cancellationToken = default)
     {
         var teachers = await _teacherRepository.GetAllWithStudentCountsAsync(cancellationToken);
-        
+
         return teachers.Select(t => new TeacherDto
         {
             Id = t.Id,
@@ -49,25 +49,4 @@ public class TeacherService : ITeacherService
             CreatedAt = teacher.CreatedAt
         };
     }
-
-    public async Task<TeacherDto?> GetTeacherWithStudentsAsync(Guid teacherId, CancellationToken cancellationToken = default)
-    {
-        var teacher = await _teacherRepository.GetWithStudentsAsync(teacherId, cancellationToken);
-        if (teacher == null)
-        {
-            return null;
-        }
-
-        return new TeacherDto
-        {
-            Id = teacher.Id,
-            Username = teacher.Username,
-            Email = teacher.Email,
-            FirstName = teacher.FirstName,
-            LastName = teacher.LastName,
-            FullName = teacher.FullName,
-            StudentCount = teacher.StudentCount,
-            CreatedAt = teacher.CreatedAt
-        };
-    }
-} 
+}
