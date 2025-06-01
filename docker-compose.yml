@@ -1,0 +1,76 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: teach-portal-db
+    environment:
+      POSTGRES_DB: TeachPortalDB
+      POSTGRES_USER: teachadmin
+      POSTGRES_PASSWORD: Teacher123!
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/scripts:/docker-entrypoint-initdb.d
+    networks:
+      - teach-portal-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U teachadmin -d TeachPortalDB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # .NET 8 Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: teach-portal-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=TeachPortalDB;Username=teachadmin;Password=Teacher123!
+      - JWT__SecretKey=SuperSecretKeyForTeachPortalApplication2024!
+      - JWT__Issuer=TeachPortal
+      - JWT__Audience=TeachPortalUsers
+      - JWT__ExpiryInMinutes=60
+    ports:
+      - "5000:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - teach-portal-network
+    volumes:
+      - ./backend:/app/source
+    restart: unless-stopped
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: teach-portal-web
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000/api
+      - REACT_APP_ENVIRONMENT=development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - teach-portal-network
+    volumes:
+      - ./frontend:/app/source
+      - /app/source/node_modules
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  teach-portal-network:
+    driver: bridge
