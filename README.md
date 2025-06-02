@@ -1,4 +1,4 @@
-** Updated ** I have fixed the 404 error on the refresh. It turns out that it's the issue with ngix instead of Reactjs nevigation. 
+**Updated:** I have fixed the 404 error on the refresh. It turns out that it's the issue with ngix instead of Reactjs nevigation. 
 
 # Teach Portal - Full-Stack Student Management System
 
