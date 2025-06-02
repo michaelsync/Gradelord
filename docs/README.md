@@ -29,6 +29,31 @@ A modern full-stack web application for teachers to manage students and view oth
 - **Recent Students**: Display recently added students
 - **Quick Actions**: Easy navigation to key features
 
+### Screenshots
+
+Login
+![image](https://github.com/user-attachments/assets/c6df6506-fbd4-4786-834d-eb008bc15db9)
+
+Register
+![image](https://github.com/user-attachments/assets/20a1adb6-b9aa-499c-9de2-57cd65a7baca)
+
+Dashboard
+![image](https://github.com/user-attachments/assets/e2c81df8-551b-4cb5-9ffa-037c99e0e546)
+
+My Student List
+![image](https://github.com/user-attachments/assets/efc2de06-3218-43d3-8dab-5f3837793714)
+
+Add/Edit Student
+![image](https://github.com/user-attachments/assets/d84e122b-f6a7-43f2-b0ef-82f457d48582)
+
+All Teachers
+![image](https://github.com/user-attachments/assets/5d408ea6-3ee9-4fc8-abac-f65ebd2cd37d)
+
+Swagger
+![image](https://github.com/user-attachments/assets/ed2f9cd7-66fb-4263-84a8-0c62528eee62)
+
+
+
 ## 🏗️ Architecture
 
 ![image](https://github.com/user-attachments/assets/99b1b2ce-4d7d-481c-a810-7f9e26856a6a)
