@@ -1,3 +1,5 @@
+** Updated ** I have fixed the 404 error on the refresh. It turns out that it's the issue with ngix instead of Reactjs nevigation. 
+
 # Teach Portal - Full-Stack Student Management System
 
 A modern full-stack web application for teachers to manage students and view other teachers in the system. Built with .NET 8, React 18, PostgreSQL, and Docker.
@@ -33,6 +35,9 @@ A modern full-stack web application for teachers to manage students and view oth
 
 > [!TIP]
 > Docker Compose will use existing images if they're already built.It only builds images if they don't exist yet.If we need to rebuild due to the code change, we can use `docker-compose build frontend --no-cache` or `docker-compose build backend --no-cache` or `docker-compose up -d --build --force-recreate`
+
+![image](https://github.com/user-attachments/assets/82c8203b-4d68-46c2-a2b3-8474fca54eff)
+
 
 3. **Access the application**
 
