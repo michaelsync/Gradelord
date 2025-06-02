@@ -21,8 +21,8 @@ FROM nginx:alpine
 # Copy built files from build stage (matches vite.config.ts outDir: 'build')
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Copy nginx configuration if needed
-# COPY nginx.conf /etc/nginx/nginx.conf
+# Copy nginx configuration for SPA routing
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose port
 EXPOSE 80

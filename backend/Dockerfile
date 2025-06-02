@@ -10,12 +10,14 @@ COPY src/TeachPortal.Domain/TeachPortal.Domain.csproj src/TeachPortal.Domain/
 COPY src/TeachPortal.Application/TeachPortal.Application.csproj src/TeachPortal.Application/
 COPY src/TeachPortal.Infrastructure/TeachPortal.Infrastructure.csproj src/TeachPortal.Infrastructure/
 COPY src/TeachPortal.API/TeachPortal.API.csproj src/TeachPortal.API/
+COPY tests/TeachPortal.Tests.Unit/TeachPortal.Tests.Unit.csproj tests/TeachPortal.Tests.Unit/
 
 # Restore dependencies explicitly
 RUN dotnet restore TeachPortal.sln
 
 # Copy source code
 COPY src/ src/
+COPY tests/ tests/
 
 # Build the application
 RUN dotnet build TeachPortal.sln -c Release --no-restore
