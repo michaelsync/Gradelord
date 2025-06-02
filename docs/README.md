@@ -31,6 +31,11 @@ A modern full-stack web application for teachers to manage students and view oth
 
 ## 🏗️ Architecture
 
+![image](https://github.com/user-attachments/assets/99b1b2ce-4d7d-481c-a810-7f9e26856a6a)
+
+![image](https://github.com/user-attachments/assets/0440c112-6832-483f-8e41-8a29895ff185)
+
+
 ### Backend (.NET 8)
 
 - **Clean Architecture**: Organized into Domain, Application, Infrastructure, and API layers
