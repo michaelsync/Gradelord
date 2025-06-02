@@ -102,6 +102,24 @@ A modern full-stack web application for teachers to manage students and view oth
    - Click "Register here" to create a new account
    - Fill in your details and start managing students!
 
+> [!NOTE]  
+> If you don't want to enable the long path, use `build.sh` to build the project and use this `Dockerfile` to push the backend. 
+
+```
+# Use the official .NET 8 runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+
+# Copy pre-built application (built locally)
+COPY publish/ .
+
+# Expose port 80
+EXPOSE 80
+
+# Set the entry point
+ENTRYPOINT ["dotnet", "TeachPortal.API.dll"]
+```
+
 ## 🛠️ Local Development Setup
 
 ### Backend Setup
@@ -324,19 +342,4 @@ For support and questions, please open an issue in the repository or contact the
 
 **Built with ❤️ using .NET 8, React 18, PostgreSQL, and Docker**
 
-if not. use build.sh
 
-```
-# Use the official .NET 8 runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
-WORKDIR /app
-
-# Copy pre-built application (built locally)
-COPY publish/ .
-
-# Expose port 80
-EXPOSE 80
-
-# Set the entry point
-ENTRYPOINT ["dotnet", "TeachPortal.API.dll"]
-```
